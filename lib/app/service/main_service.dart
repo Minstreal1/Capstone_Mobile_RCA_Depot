@@ -25,11 +25,11 @@ class MainService extends ApiService {
       (p0) => ScheduleCard.fromJson(p0),
     );
   }
-  Future<List<ScheduleCard>> fetchListScheduleByStatusByUser(
-      {String? status}) async {
-    return await fetchDataList(
+  Future<List<PaymentDetail>> fetchListPayment(
+      ) async {
+    return await fetchDataListWithPost(
       '${BaseLink.fetchListScheduleByStatus}',
-      (p0) => ScheduleCard.fromJson(p0),
+      (p0) => PaymentDetail.fromJson(p0),body: {}
     );
   }
 

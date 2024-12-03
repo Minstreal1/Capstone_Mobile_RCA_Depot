@@ -4,8 +4,8 @@ class BaseLink {
   static String login = '$domain/auth/login';
 
   static String fetchListMaterial = '$domain/material/get-all-material';
-  static String fetchListScheduleByStatus = '$domain/recycling-depot/get-list-active-recycling-depot-by-paging';
-  static String fetchListScheduleUserByStatus = '$domain/schedule/get-list-collection-schedule-by-user-by-status';
+  static String fetchListScheduleByStatus = '$domain/recycling-depot/get-list-payment';
+  static String fetchListScheduleUserByStatus = '$domain/recycling-depot/get-list-payment';
   
   static String regisSchdule = '$domain/collector/accept-colecttion-schedule-by-id';
   static String fetchScheduleById = '$domain/schedule/get-schedule-by-id';

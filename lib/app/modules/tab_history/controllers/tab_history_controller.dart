@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:rca_depot/app/model/payment_detail.dart';
 import '../../../../app/base/base_controller.dart';
 import '../../../../app/model/schedule_cart.dart';
 import '../../../../app/service/main_service.dart';
@@ -6,7 +7,7 @@ import '../../../../app/service/main_service.dart';
 class TabHistoryController extends BaseController {
   //TODO: Implement TabCalendarController
 
-  RxList<ScheduleCard> listSchedule = <ScheduleCard>[].obs;
+  RxList<PaymentDetail> listPayment = <PaymentDetail>[].obs;
   @override
   void onInit() {
     fetchListScheduleByStatus();
@@ -25,9 +26,9 @@ class TabHistoryController extends BaseController {
 
   fetchListScheduleByStatus() {
     isLoading(true);
-    MainService().fetchListScheduleByStatusByUser(status: 'ONGOING').then((data) {
-      listSchedule(data);
-      listSchedule.value.reversed;
+    MainService().fetchListPayment().then((data) {
+      listPayment(data);
+      listPayment.value.reversed;
       isLoading(false);
     }).catchError(handleError);
   }

@@ -15,6 +15,7 @@ abstract class Routes {
   static const CALENDAR_DETAIL = _Paths.CALENDAR_DETAIL;
   static const TAB_HISTORY = _Paths.TAB_HISTORY;
   static const SCHEDULE_DETAIL = _Paths.SCHEDULE_DETAIL;
+  static const PAYMENT_DETAIL = _Paths.PAYMENT_DETAIL;
 }
 
 abstract class _Paths {
@@ -31,4 +32,5 @@ abstract class _Paths {
   static const CALENDAR_DETAIL = '/calendar-detail';
   static const TAB_HISTORY = '/tab-history';
   static const SCHEDULE_DETAIL = '/schedule-detail';
+  static const PAYMENT_DETAIL = '/payment-detail';
 }

@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
-import 'package:rca_depot/app/modules/calendar-detail/bindings/calendar_detail_binding.dart';
-import 'package:rca_depot/app/modules/calendar-detail/views/calendar_detail_view.dart';
+import 'package:rca_depot/app/modules/schedule-detail/bindings/schedule_detail_binding.dart';
+import 'package:rca_depot/app/modules/schedule-detail/views/schedule_detail_view.dart';
 
+import '../modules/calendar-detail/bindings/calendar_detail_binding.dart';
+import '../modules/calendar-detail/views/calendar_detail_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/payment_detail/bindings/payment_detail_binding.dart';
+import '../modules/payment_detail/views/payment_detail_view.dart';
 import '../modules/personal_info/bindings/personal_info_binding.dart';
 import '../modules/personal_info/views/personal_info_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
@@ -69,7 +73,6 @@ class AppPages {
       page: () => const TabCalendarView(),
       binding: TabCalendarBinding(),
     ),
-  
     GetPage(
       name: _Paths.TAB_HISTORY,
       page: () => const TabHistoryView(),
@@ -79,6 +82,16 @@ class AppPages {
       name: _Paths.CALENDAR_DETAIL,
       page: () => const CalendarDetailView(),
       binding: CalendarDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYMENT_DETAIL,
+      page: () => const PaymentDetailView(),
+      binding: PaymentDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.SCHEDULE_DETAIL,
+      page: () => const ScheduleDetailView(),
+      binding: ScheduleDetailBinding(),
     ),
   ];
 }

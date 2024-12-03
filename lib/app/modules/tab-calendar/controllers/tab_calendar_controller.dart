@@ -27,10 +27,10 @@ class TabCalendarController extends BaseController {
 
   fetchListScheduleByStatus() {
     isLoading(true);
-    MainService().fetchListScheduleByStatusByUser(status: 'ACCEPTED').then((data) {
-      listSchedule(data);
-      listSchedule.value.reversed;
-      isLoading(false);
-    }).catchError(handleError);
+    // MainService().fetchListScheduleByStatusByUser(status: 'ACCEPTED').then((data) {
+    //   listSchedule(data);
+    //   listSchedule.value.reversed;
+    //   isLoading(false);
+    // }).catchError(handleError);
   }
 }
