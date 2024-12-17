@@ -88,7 +88,7 @@ class SignUpController extends BaseController {
         PayLoadSignUp payload = PayLoadSignUp(
           username: usernameController.text,
           password: passwordController.text,
-          email: 'abc2@gmail.com',
+          email: '${usernameController}@gmail.com',
           phoneNumber: phoneController.text,
           firstName: nameController.text.split(' ')[0],
           lastName: nameController.text.split(' ')[1],
