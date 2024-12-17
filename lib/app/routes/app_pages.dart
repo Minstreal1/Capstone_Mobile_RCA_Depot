@@ -1,17 +1,23 @@
 import 'package:get/get.dart';
-import 'package:rca_depot/app/modules/schedule-detail/bindings/schedule_detail_binding.dart';
-import 'package:rca_depot/app/modules/schedule-detail/views/schedule_detail_view.dart';
 
 import '../modules/calendar-detail/bindings/calendar_detail_binding.dart';
 import '../modules/calendar-detail/views/calendar_detail_view.dart';
+import '../modules/config_material/bindings/config_material_binding.dart';
+import '../modules/config_material/views/config_material_view.dart';
+import '../modules/google-map-autocomplete/bindings/google_map_autocomplete_binding.dart';
+import '../modules/google-map-autocomplete/views/google_map_autocomplete_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/manage-material/bindings/manage_material_binding.dart';
+import '../modules/manage-material/views/manage_material_view.dart';
 import '../modules/payment_detail/bindings/payment_detail_binding.dart';
 import '../modules/payment_detail/views/payment_detail_view.dart';
 import '../modules/personal_info/bindings/personal_info_binding.dart';
 import '../modules/personal_info/views/personal_info_view.dart';
+import '../modules/schedule-detail/bindings/schedule_detail_binding.dart';
+import '../modules/schedule-detail/views/schedule_detail_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/tab-calendar/bindings/tab_calendar_binding.dart';
@@ -92,6 +98,21 @@ class AppPages {
       name: _Paths.SCHEDULE_DETAIL,
       page: () => const ScheduleDetailView(),
       binding: ScheduleDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.GOOGLE_MAP_AUTOCOMPLETE,
+      page: () => const GoogleMapAutocompleteView(),
+      binding: GoogleMapAutocompleteBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONFIG_MATERIAL,
+      page: () => const ConfigMaterialView(),
+      binding: ConfigMaterialBinding(),
+    ),
+    GetPage(
+      name: _Paths.MANAGE_MATERIAL,
+      page: () => const ManageMaterialView(),
+      binding: ManageMaterialBinding(),
     ),
   ];
 }

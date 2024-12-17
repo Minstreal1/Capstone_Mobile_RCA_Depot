@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:rca_depot/app/resource/form_field_widget.dart';
+import 'package:rca_depot/app/resource/text_style.dart';
 import '../../../../app/resource/color_manager.dart';
 import '../../../../app/resource/reponsive_utils.dart';
 
@@ -16,21 +19,57 @@ class HomeView extends GetView<HomeController> {
       onWillPop: () async => false,
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.miniCenterDocked,
-          // floatingActionButton: Container(
-          //   height: UtilsReponsive.height(60, context),
-          //   width: UtilsReponsive.height(60, context),
-          //   decoration: BoxDecoration(shape: BoxShape.circle),
-          //   child: FloatingActionButton(
-          //       backgroundColor: ColorsManager.primary,
-          //       onPressed: () async {},
-          //       child: Icon(Icons.add)),
-          // ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniCenterDocked,
+          floatingActionButton: Container(
+            height: UtilsReponsive.height(60, context),
+            width: UtilsReponsive.height(60, context),
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: FloatingActionButton(
+                backgroundColor: ColorsManager.primary,
+                onPressed: () async {
+                  
+                  Get.bottomSheet(Container(
+                      height: UtilsReponsive.height(400, Get.context!),
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.all(UtilsReponsive.height(15, context)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(
+                                UtilsReponsive.height(15, Get.context!)),
+                            topRight: Radius.circular(
+                                UtilsReponsive.height(15, Get.context!)),
+                          ),
+                          color: Colors.white),
+                      child: Column(children: [
+                        TextConstant.subTile2(Get.context!,
+                            text: 'Số điểm muốn nạp'),
+                             TextConstant.subTile2(Get.context!,
+                            text: '1 điểm = 1000VNĐ', color: Colors.grey),
+                        SizedBoxConst.size(context: context),
+                        FormFieldWidget(
+                          controllerEditting: controller.pointNum,
+                          setValueFunc: (v) {},
+                          radiusBorder: 10,
+                          padding: 15,
+                          borderColor: ColorsManager.primary,
+                        ),
+                        SizedBoxConst.size(context: context),
+                        OutlinedButton(
+                            onPressed: () {
+                              controller.money();
+                            },
+                            child: TextConstant.subTile3(context,
+                                text: 'Xác nhận'))
+                      ])));
+                },
+                child: Icon(LineIcons.moneyCheck)),
+          ),
           bottomNavigationBar: Obx(() => _bottomNav2(context)),
           body: SafeArea(
-            child: Obx(
-                () => controller.body.elementAt(controller.indexSelected.value)),
+            child: Obx(() =>
+                controller.body.elementAt(controller.indexSelected.value)),
           )),
     );
   }
@@ -48,6 +87,13 @@ class HomeView extends GetView<HomeController> {
             BottomNavigationBarItem(
               icon: LineIcon(Icons.home),
               label: 'Trang chủ',
+            ),
+            BottomNavigationBarItem(
+              icon: LineIcon(
+                LineIcons.moneyCheck,
+                color: Colors.white,
+              ),
+              label: 'Nạp tiền',
             ),
             BottomNavigationBarItem(
               icon: LineIcon(Icons.person),

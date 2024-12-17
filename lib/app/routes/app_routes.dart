@@ -16,6 +16,9 @@ abstract class Routes {
   static const TAB_HISTORY = _Paths.TAB_HISTORY;
   static const SCHEDULE_DETAIL = _Paths.SCHEDULE_DETAIL;
   static const PAYMENT_DETAIL = _Paths.PAYMENT_DETAIL;
+  static const GOOGLE_MAP_AUTOCOMPLETE = _Paths.GOOGLE_MAP_AUTOCOMPLETE;
+  static const CONFIG_MATERIAL = _Paths.CONFIG_MATERIAL;
+  static const MANAGE_MATERIAL = _Paths.MANAGE_MATERIAL;
 }
 
 abstract class _Paths {
@@ -33,4 +36,7 @@ abstract class _Paths {
   static const TAB_HISTORY = '/tab-history';
   static const SCHEDULE_DETAIL = '/schedule-detail';
   static const PAYMENT_DETAIL = '/payment-detail';
+  static const GOOGLE_MAP_AUTOCOMPLETE = '/google-map-autocomplete';
+  static const CONFIG_MATERIAL = '/config-material';
+  static const MANAGE_MATERIAL = '/manage-material';
 }

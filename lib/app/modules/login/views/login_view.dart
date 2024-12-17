@@ -17,6 +17,10 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
         body: SafeArea(
             child: Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: UtilsReponsive.width(20, context),
+        vertical: UtilsReponsive.height(20, context),
+      ),
       color: ColorsManager.primary,
       width: double.infinity,
       height: double.infinity,
@@ -26,10 +30,8 @@ class LoginView extends GetView<LoginController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(child: _avatar(context)),
-            SizedBox(
-              height: 10,
-            ),
-            Text('RCA'.toUpperCase(),
+            SizedBoxConst.size(context: context),
+            Text('DEPOT'.toUpperCase(),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -37,24 +39,19 @@ class LoginView extends GetView<LoginController> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Container(
               width: double.infinity,
-              // height: size.height * 0.5,
               padding: EdgeInsets.all(size.height * 0.02),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20), color: Colors.white),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Text('Số điện thoại',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: ColorsManager.primary,
                           fontSize: MediaQuery.of(context).size.height * 0.02)),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Obx(() => FormFieldWidget(
                         padding: 20,
                         controllerEditting: controller.phoneController,
@@ -65,17 +62,13 @@ class LoginView extends GetView<LoginController> {
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,
                       )),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Text('Mật khẩu',
                       style: TextStyle(
                           color: ColorsManager.primary,
                           fontWeight: FontWeight.w500,
                           fontSize: MediaQuery.of(context).size.height * 0.02)),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Obx(() => FormFieldWidget(
                         errorText: controller.passwordError.value,
                         controllerEditting: controller.passwordController,
@@ -102,7 +95,7 @@ class LoginView extends GetView<LoginController> {
                     onTap: () async {
                       Get.toNamed(Routes.SIGN_UP);
                     },
-                    child:  Align(
+                    child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         "Bạn chưa có tài khoản?",
@@ -118,14 +111,14 @@ class LoginView extends GetView<LoginController> {
                     constraints: BoxConstraints.tightFor(width: context.width),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         backgroundColor:
-                            MaterialStateProperty.all(ColorsManager.primary),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+                            WidgetStateProperty.all(ColorsManager.primary),
+                        padding: WidgetStateProperty.all(EdgeInsets.all(14)),
                       ),
                       child: Obx(() => controller.isLoading.value
                           ? const CupertinoActivityIndicator(
@@ -142,12 +135,8 @@ class LoginView extends GetView<LoginController> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.05,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
+                  SizedBoxConst.size(context: context)
                 ],
               ),
             ),
@@ -159,32 +148,21 @@ class LoginView extends GetView<LoginController> {
 
   SizedBox _avatar(BuildContext context) {
     return SizedBox(
-      height: UtilsReponsive.height(150, context),
-      width: UtilsReponsive.height(150, context),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            clipBehavior: Clip.hardEdge,
-            height: UtilsReponsive.height(90, context),
-            width: UtilsReponsive.height(90, context),
-            padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.white, width: 5),
-                shape: BoxShape.circle),
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              height: UtilsReponsive.height(80, context),
-              width: UtilsReponsive.height(80, context),
-              decoration: const BoxDecoration(shape: BoxShape.circle),
-              // child: Image.asset(
-              //   'assets/image_logo.png',
-              //   fit: BoxFit.fill,
-              // ),
-            ),
-          ),
-        ],
+      height: UtilsReponsive.height(100, context),
+      width: UtilsReponsive.height(100, context),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        height: UtilsReponsive.height(90, context),
+        width: UtilsReponsive.height(90, context),
+        padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.white, width: 5),
+            shape: BoxShape.circle),
+        child: Image.asset(
+          'assets/images/rca_logo.png',
+          fit: BoxFit.fill,
+        ),
       ),
     );
   }

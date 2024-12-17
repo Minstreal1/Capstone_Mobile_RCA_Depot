@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:rca_depot/app/base/base_common.dart';
 import 'package:rca_depot/app/model/account_session.dart';
 import '../../../../app/base/base_controller.dart';
 import '../../../../app/model/create_payment_payload.dart';
@@ -48,18 +49,11 @@ class CalendarDetailController extends BaseController {
   }
 
   fetchListMaterial() {
-    mainService.fetchListMaterial().then((listData) {
-      listMaterialType(listData);
+    mainService.fetchOwnDepot(id:BaseCommon.instance.accountSession!.id!).then((dataDepot) {
+      listMaterialType(dataDepot.depotMaterials);
       selectedDropdown.value = listMaterialType[0];
     }).catchError(handleError);
-    //     .catchError((onError) {
-    //       log(e)
-    //   listMaterialType.value = [
-    //     MaterialType(id: 1, name: "Rác công nghiệp"),
-    //     MaterialType(id: 2, name: "Rác tái chế"),
-    //     MaterialType(id: 3, name: "Rác nilon")
-    //   ];
-    // });
+   
   }
 
   addNewItem(MaterialTypeData value) {

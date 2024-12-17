@@ -15,8 +15,6 @@ class PersonalInfoController extends GetxController {
   // final errorName = ''.obs;
 
 
-  final isUpdateName = false.obs;
-  final isUpdatePhone = false.obs;
   TextEditingController phoneController = TextEditingController(text: '');
 
   TextEditingController nameController = TextEditingController(text: '');
@@ -79,22 +77,5 @@ class PersonalInfoController extends GetxController {
   Future pickImageFromCategory() async {
     
   }
-
-  revertName() {
-    isUpdateName.value = false;
-  }
-
-  updateName() async {
-   
-  }
-
-  revertPhone() {
-    isUpdatePhone.value = false;
-  }
-
-  changePhone(String code) {
-    
-  }
-
 
 }

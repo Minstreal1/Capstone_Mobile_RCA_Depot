@@ -24,7 +24,7 @@ class TabAccountView extends GetView<TabAccountController> {
                 _avatar(context),
                 SizedBoxConst.size(context: context),
                 TextConstant.titleH2(context, text: 'Nguyễn Văn A'),
-                RichText(
+               Obx(()=> RichText(
                     text: TextSpan(
                         style: Theme.of(context).textTheme.titleSmall,
                         children: <TextSpan>[
@@ -35,13 +35,13 @@ class TabAccountView extends GetView<TabAccountController> {
                             fontSize: UtilsReponsive.height(14, context)),
                       ),
                       TextSpan(
-                        text: '162',
+                        text: (controller.dataDepot.value.balance??0.0).toStringAsFixed(2),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
                             fontSize: UtilsReponsive.height(14, context)),
                       ),
-                    ])),
+                    ]))),
                 SizedBoxConst.size(context: context),
                 // _dashboard(context),
                 Padding(
@@ -207,15 +207,8 @@ class TabAccountView extends GetView<TabAccountController> {
               height: UtilsReponsive.height(80, context),
               width: UtilsReponsive.height(80, context),
               decoration: const BoxDecoration(shape: BoxShape.circle),
-              // child: CachedNetworkImage(
-              //   fit: BoxFit.fill,
-              //   imageUrl: controller.account.value.avatarUrl ?? '',
-              //   placeholder: (context, url) => const CircularProgressIndicator(
-              //     color: Colors.white,
-              //   ),
-              //   errorWidget: (context, url, error) =>
-              //       Image.asset(ImageAssets.logo),
-              // ),
+              child: 
+                    Image.asset('assets/images/rca_logo.png'),
             ),
           ),
           Positioned(
