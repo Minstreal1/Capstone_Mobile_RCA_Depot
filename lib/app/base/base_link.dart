@@ -19,6 +19,6 @@ class BaseLink {
   static String fetchDataOwnDepot = '$domain/recycling-depot/get-recycling-depot-by-id';
   static String updaetMaterial = '$domain/depot-material/create-update-depot-material';
 static String createMoneyLink = '$domain/payment/create-payment-url';
-
+static String sendPoint = '$domain/payment/change-point-to-user';
 //
 }

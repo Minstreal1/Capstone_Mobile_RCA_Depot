@@ -13,7 +13,7 @@ import '../../../../app/modules/tab_home/controllers/tab_home_controller.dart';
 import '../../../../app/modules/tab_home/views/tab_home_view.dart';
 
 class HomeController extends BaseController {
-  RxList<Widget> body = RxList([TabHomeView(), TabAccountView()]);
+  RxList<Widget> body = RxList([TabHomeView(), SizedBox(),TabAccountView()]);
   final indexSelected = 0.obs;
   TextEditingController pointNum = TextEditingController();
   @override
@@ -41,8 +41,8 @@ class HomeController extends BaseController {
       case 1:
         break;
       case 2:
-        Get.find<TabAccountController>();
-        indexSelected(1);
+        Get.find<TabAccountController>().fetchData();
+        indexSelected(2);
         break;
       default:
     }

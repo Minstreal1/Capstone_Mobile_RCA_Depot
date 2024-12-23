@@ -33,9 +33,15 @@ class TabAccountController extends BaseController {
         textColor: Colors.black,
         backgroundColor: ColorsManager.primary),
     NavAccount(
-        title: 'Đổi điểm',
+        title: 'QR của tôi',
+        icon: Icon(Icons.qr_code, color: Colors.white),
+        path: 'qr_code',
+        textColor: Colors.black,
+        backgroundColor: ColorsManager.primary),
+    NavAccount(
+        title: 'Chuyển điểm',
         icon: Icon(Icons.money, color: Colors.white),
-        path: 'path',
+        path: Routes.SEND_POINT,
         textColor: Colors.black,
         backgroundColor: ColorsManager.primary)
   ];

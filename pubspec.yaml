@@ -40,7 +40,8 @@ dependencies:
   flutter_svg:
   qr_flutter: ^4.1.0
   url_launcher: ^6.1.10
-  app_links: 
+  app_links:
+  quickalert: ^1.1.0
 
   flutter: 
     sdk: flutter

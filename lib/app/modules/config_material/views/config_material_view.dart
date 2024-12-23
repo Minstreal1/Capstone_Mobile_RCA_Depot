@@ -54,6 +54,7 @@ class ConfigMaterialView extends GetView<ConfigMaterialController> {
                           SizedBoxConst.size(context: context),
                       itemBuilder: (context, index) => ItemMaterial(
                         item: controller.listMaterialDataOwner.value[index],
+                        isGapNew: true,
                       ),
                     ),
                   ))),
@@ -82,22 +83,27 @@ class ConfigMaterialView extends GetView<ConfigMaterialController> {
 }
 
 class ItemMaterial extends StatefulWidget {
-  ItemMaterial({required this.item});
+  ItemMaterial({required this.item, this.isGapNew = false});
   final MaterialTypeData item;
+  final bool isGapNew;
 
   @override
-  State<ItemMaterial> createState() => _ItemMaterialState(item: item);
+  State<ItemMaterial> createState() =>
+      _ItemMaterialState(item: item, isGapNew: isGapNew);
 }
 
 class _ItemMaterialState extends State<ItemMaterial> {
-  _ItemMaterialState({required this.item});
+  _ItemMaterialState({required this.item, required this.isGapNew});
   final MaterialTypeData item;
+  final bool isGapNew;
   bool? isEnable;
   TextEditingController textController = TextEditingController(text: '');
   @override
   void initState() {
     setState(() {
-      textController.text = (item.price!+ (item.price! * 0.12)).toStringAsFixed(2);
+      textController.text = !isGapNew
+          ? '${item.price}'
+          : (item.price! + (item.price! * 0.12)).toStringAsFixed(2);
       isEnable = item.isActive;
     });
     // TODO: implement initState
@@ -107,7 +113,10 @@ class _ItemMaterialState extends State<ItemMaterial> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: UtilCommon.shadowBox(context),
+      decoration: UtilCommon.shadowBox(context,
+          colorBg: (isEnable == null || isEnable!)
+              ? Colors.white
+              : Colors.grey.shade300),
       padding: EdgeInsets.all(UtilsReponsive.height(8, context)),
       child: Row(
         children: [
@@ -119,23 +128,31 @@ class _ItemMaterialState extends State<ItemMaterial> {
                 TextConstant.subTile3(context,
                     text: item.description!, color: Colors.grey),
                 SizedBoxConst.size(context: context),
-                isEnable != null
+                ((isEnable != null && !isEnable!) || isGapNew)
                     ? TextConstant.subTile3(context,
                         text: 'Giá: ${item.price!} điểm')
                     : FormFieldWidget(
                         padding: 10,
                         controllerEditting: textController,
-                        setValueFunc: (v) {},
+                        textInputType: TextInputType.number,
+                        setValueFunc: (v) {
+                          item.price = double.tryParse(v);
+                        },
                         borderColor: ColorsManager.primary,
                         radiusBorder: 10,
                       )
               ],
             ),
           ),
-          isEnable != null
+          !isGapNew
               ? CupertinoSwitch(
                   value: isEnable!,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {
+                      isEnable = value;
+                      item.isActive = value;
+                    });
+                  },
                 )
               : SizedBox()
         ],

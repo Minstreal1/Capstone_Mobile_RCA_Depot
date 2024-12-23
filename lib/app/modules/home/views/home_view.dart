@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:rca_depot/app/resource/form_field_widget.dart';
 import 'package:rca_depot/app/resource/text_style.dart';
 import '../../../../app/resource/color_manager.dart';
@@ -28,41 +29,77 @@ class HomeView extends GetView<HomeController> {
             child: FloatingActionButton(
                 backgroundColor: ColorsManager.primary,
                 onPressed: () async {
-                  
-                  Get.bottomSheet(Container(
-                      height: UtilsReponsive.height(400, Get.context!),
-                      width: double.infinity,
-                      padding:
-                          EdgeInsets.all(UtilsReponsive.height(15, context)),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(
-                                UtilsReponsive.height(15, Get.context!)),
-                            topRight: Radius.circular(
-                                UtilsReponsive.height(15, Get.context!)),
-                          ),
-                          color: Colors.white),
-                      child: Column(children: [
-                        TextConstant.subTile2(Get.context!,
-                            text: 'Số điểm muốn nạp'),
-                             TextConstant.subTile2(Get.context!,
-                            text: '1 điểm = 1000VNĐ', color: Colors.grey),
-                        SizedBoxConst.size(context: context),
-                        FormFieldWidget(
-                          controllerEditting: controller.pointNum,
-                          setValueFunc: (v) {},
-                          radiusBorder: 10,
-                          padding: 15,
-                          borderColor: ColorsManager.primary,
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.custom,
+                    barrierDismissible: true,
+                    confirmBtnText: 'Xác nhận',
+                    customAsset: 'assets/images/arrow.png',
+                    widget: TextFormField(
+                      decoration: const InputDecoration(
+                        alignLabelWithHint: true,
+                        hintText: 'Nhập số điểm muốn nạp',
+                        prefixIcon: Icon(
+                          LineIcons.moneyBill,
                         ),
-                        SizedBoxConst.size(context: context),
-                        OutlinedButton(
-                            onPressed: () {
-                              controller.money();
-                            },
-                            child: TextConstant.subTile3(context,
-                                text: 'Xác nhận'))
-                      ])));
+                      ),
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.phone,
+                      onChanged: (value) {},
+                    ),
+                    onConfirmBtnTap: () async {
+                      controller.money();
+                      //  if (message.length < 5) {
+                      //   await QuickAlert.show(
+                      //    context: context,
+                      //    type: QuickAlertType.error,
+                      //    text: 'Please input something',
+                      //   );
+                      //   return;
+                      // }
+                      //   Navigator.pop(context);
+                      //    await Future.delayed(const Duration(milliseconds: 1000));
+                      //    await QuickAlert.show(
+                      //     context: context,
+                      //     type: QuickAlertType.success,
+                      //     text: "Phone number '$message' has been saved!.",
+                      //    );
+                    },
+                  );
+                  // Get.bottomSheet(Container(
+                  //     height: UtilsReponsive.height(400, Get.context!),
+                  //     width: double.infinity,
+                  //     padding:
+                  //         EdgeInsets.all(UtilsReponsive.height(15, context)),
+                  //     decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.only(
+                  //           topLeft: Radius.circular(
+                  //               UtilsReponsive.height(15, Get.context!)),
+                  //           topRight: Radius.circular(
+                  //               UtilsReponsive.height(15, Get.context!)),
+                  //         ),
+                  //         color: Colors.white),
+                  //     child: Column(children: [
+                  //       TextConstant.subTile2(Get.context!,
+                  //           text: 'Số điểm muốn nạp'),
+                  //            TextConstant.subTile2(Get.context!,
+                  //           text: '1 điểm = 1000VNĐ', color: Colors.grey),
+                  //       SizedBoxConst.size(context: context),
+                  //       FormFieldWidget(
+                  //         controllerEditting: controller.pointNum,
+                  //         setValueFunc: (v) {},
+                  //         radiusBorder: 10,
+                  //         padding: 15,
+                  //         borderColor: ColorsManager.primary,
+                  //       ),
+                  //       SizedBoxConst.size(context: context),
+                  //       OutlinedButton(
+                  //           onPressed: () {
+                  //             controller.money();
+                  //           },
+                  //           child: TextConstant.subTile3(context,
+                  //               text: 'Xác nhận'))
+                  //     ])));
                 },
                 child: Icon(LineIcons.moneyCheck)),
           ),

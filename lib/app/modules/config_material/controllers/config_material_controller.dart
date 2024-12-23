@@ -44,9 +44,10 @@ class ConfigMaterialController extends BaseController {
   }
 
   updateAll() async {
+    // log('${listMaterialDataOwner[0].price}');
     waiting(true);
     MainService()
-        .updateMaterial(listMaterial: listMaterialDataOwner)
+        .updateMaterial(listMaterial: listMaterialDataOwner, updateInit: true)
         .then((val) {
       waiting(false);
       Get.offAllNamed(Routes.HOME);

@@ -58,8 +58,8 @@ class LoginController extends GetxController {
         .login(
             username: phoneController.text,
              password: passwordController.text,
-            // username: "hieutran",
-            // password: "password123"
+            // username: "depot13",
+            // password: "123456"
             )
         .then((token) {
       BaseCommon.instance.saveToken(token).then((_) {

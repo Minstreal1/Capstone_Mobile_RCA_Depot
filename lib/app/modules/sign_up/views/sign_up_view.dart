@@ -59,7 +59,6 @@ class SignUpView extends GetView<SignUpController> {
                       Obx(() => FormFieldWidget(
                             padding: 20,
                             setValueFunc: (value) {
-                              controller.validationName();
                             },
                             borderColor: ColorsManager.primary,
                             radiusBorder: 15,

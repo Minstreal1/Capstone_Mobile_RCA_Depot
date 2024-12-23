@@ -20,7 +20,31 @@ class ManageMaterialView extends GetView<ManageMaterialController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextConstant.titleH2(context, text: 'Các loại rác'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(Icons.arrow_back)),
+                    TextConstant.titleH2(context, text: 'Các loại rác'),
+                  ],
+                ),
+                Obx(() => controller.waiting.value
+                    ? CupertinoActivityIndicator()
+                    : TextButton(
+                        onPressed: () {
+                          controller.updateAll();
+                        },
+                        child: TextConstant.subTile3(context,
+                            text: 'Cập nhật nhanh',
+                            color: ColorsManager.primary),
+                      ))
+              ],
+            ),
             Obx(() => controller.isLoading.value
                 ? CupertinoActivityIndicator()
                 : Expanded(

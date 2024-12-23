@@ -90,10 +90,10 @@ class MainService extends ApiService {
   }
 
   Future<bool> updateMaterial(
-      {required List<MaterialTypeData> listMaterial}) async {
+      {required List<MaterialTypeData> listMaterial, bool? updateInit}) async {
     return validationWithPost(BaseLink.updaetMaterial, body: {
       "materials":
-          List<dynamic>.from(listMaterial.map((x) => x.toJsonUpdate(true)))
+          List<dynamic>.from(listMaterial.map((x) => x.toJsonUpdate(updateInit)))
     });
   }
 
@@ -108,4 +108,16 @@ class MainService extends ApiService {
     }
     throw Exception(json.decode(response.body)['message']);
   }
+
+  Future<void> sendPoint({required int point, required int userId})async{
+    final response = await http.get(
+        Uri.parse('${BaseLink.sendPoint}?numberPoint=$point&userId=$userId'),
+        headers: BaseCommon.instance.headerRequest());
+    log('StatusCode ${response.statusCode} - ${'${BaseLink.sendPoint}??numberPoint=$point&userId=$userId'}');
+    log('Body ${response.body}');
+    if (response.statusCode == 200) {
+      return json.decode(response.body)["data"];
+    }
+    throw Exception(json.decode(response.body)['message']);
+}
 }

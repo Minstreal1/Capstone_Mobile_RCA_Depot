@@ -19,6 +19,7 @@ abstract class Routes {
   static const GOOGLE_MAP_AUTOCOMPLETE = _Paths.GOOGLE_MAP_AUTOCOMPLETE;
   static const CONFIG_MATERIAL = _Paths.CONFIG_MATERIAL;
   static const MANAGE_MATERIAL = _Paths.MANAGE_MATERIAL;
+  static const SEND_POINT = _Paths.SEND_POINT;
 }
 
 abstract class _Paths {
@@ -39,4 +40,5 @@ abstract class _Paths {
   static const GOOGLE_MAP_AUTOCOMPLETE = '/google-map-autocomplete';
   static const CONFIG_MATERIAL = '/config-material';
   static const MANAGE_MATERIAL = '/manage-material';
+  static const SEND_POINT = '/send-point';
 }

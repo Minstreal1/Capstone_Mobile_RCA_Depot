@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:rca_depot/app/base/base_common.dart';
+import 'package:rca_depot/app/resource/util_common.dart';
 import '../../../../app/modules/tab_account/model/nav_account.dart';
 import '../../../../app/resource/color_manager.dart';
 import '../../../../app/resource/reponsive_utils.dart';
@@ -104,7 +107,38 @@ class TabAccountView extends GetView<TabAccountController> {
   GestureDetector _cardFeature(BuildContext context, NavAccount nav) {
     return GestureDetector(
         onTap: () {
-          Get.toNamed(nav.path);
+          if (nav.path == 'qr_code') {
+            Get.dialog(Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: Container(
+                  height:  UtilsReponsive.height(300, context),
+                  alignment: Alignment.center,
+                  decoration: UtilCommon.shadowBox(context,
+                      colorSd: ColorsManager.primary),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            icon: Icon(Icons.close)),
+                      ),
+                      QrImageView(
+                          data: BaseCommon.instance.accessToken!,
+                          version: QrVersions.auto,
+                          size: UtilsReponsive.height(200, context)),
+                    ],
+                  ),
+                ),
+              ),
+            ));
+          } else {
+            Get.toNamed(nav.path);
+          }
         },
         child: Container(
           decoration: BoxDecoration(

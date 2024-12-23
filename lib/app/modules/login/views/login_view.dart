@@ -57,7 +57,7 @@ class LoginView extends GetView<LoginController> {
                         controllerEditting: controller.phoneController,
                         errorText: controller.phoneError.value,
                         setValueFunc: (value) {
-                          controller.validationPhone();
+                          // controller.validat2ionPhone();
                         },
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,

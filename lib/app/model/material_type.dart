@@ -63,7 +63,7 @@ class MaterialTypeData {
       };
   Map<String, dynamic> toJsonUpdate(bool? act) => {
         "materialId": id,
-        "price": (price!+ (price! * 0.12)).toStringAsFixed(2),
+        "price": act!=null?(price!+ (price! * 0.12)).toStringAsFixed(2):price,
         "active": act ?? isActive,
       };
   Map<String, dynamic> toJsonCreatePayment() => {
