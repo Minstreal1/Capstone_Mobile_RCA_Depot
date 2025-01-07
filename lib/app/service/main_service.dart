@@ -92,9 +92,9 @@ class MainService extends ApiService {
   Future<bool> updateMaterial(
       {required List<MaterialTypeData> listMaterial, bool? updateInit}) async {
     return validationWithPost(BaseLink.updaetMaterial, body: {
-      "materials":
+      "materials": 
           List<dynamic>.from(listMaterial.map((x) => x.toJsonUpdate(updateInit)))
-    });
+    }, is201: true);
   }
 
   Future<String> createMoneyLink(int point) async {

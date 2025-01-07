@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rca_depot/app/base/base_controller.dart';
 import 'package:rca_depot/app/resource/util_common.dart';
 import '../../../../app/base/base_common.dart';
 import '../../../../app/routes/app_pages.dart';
 import '../../../../app/service/auth.dart';
 
-class LoginController extends GetxController {
+enum ValidationType { phone, email, password, name }
+
+class LoginController extends BaseController {
+  //TODO: Implement LoginController
+
   //TODO: Implement LoginController
 
   final count = 0.obs;
@@ -14,10 +19,10 @@ class LoginController extends GetxController {
 
   Rx<String> phoneError = ''.obs;
   Rx<String> passwordError = ''.obs;
-  AuthService authService = AuthService();
 
-  final isLoading = false.obs;
   final visiblePassword = false.obs;
+
+  AuthService authService = AuthService();
   @override
   void onInit() {
     super.onInit();
@@ -50,26 +55,50 @@ class LoginController extends GetxController {
       passwordError.value = 'Mật khẩu không được để trống';
       return;
     }
+    if (passwordController.text.length < 6) {
+      passwordError.value = 'Mật khẩu tối thiểu 6 kí tự';
+      return;
+    }
     passwordError.value = '';
   }
 
+  void validation({required ValidationType type}) {
+    switch (type) {
+      case ValidationType.phone:
+        validationPhone();
+        break;
+      case ValidationType.password:
+        validationPassword();
+        break;
+      default:
+    }
+    isEnableButton.value = (phoneError.isEmpty &&
+        passwordError.isEmpty &&
+        phoneController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty);
+  }
+
   Future<void> login() async {
-    authService
-        .login(
-            username: phoneController.text,
-             password: passwordController.text,
-            // username: "depot13",
-            // password: "123456"
-            )
-        .then((token) {
-      BaseCommon.instance.saveToken(token).then((_) {
-         if (BaseCommon.instance.accountSession!.role ==
-            'ROLE_RECYCLING_DEPOT') {
-          Get.toNamed(Routes.HOME);
-        }else{
-          UtilCommon.snackBar(text: 'Tài khoản không phải Depot', isFail: true);
-        }
-      });
-    });
+    if (isEnableButton.isTrue && isLockButton.isFalse) {
+      isLockButton(true);
+      authService
+          .login(
+        username: phoneController.text,
+        password: passwordController.text,
+        // username: "depot13",
+        // password: "123456"
+      )
+          .then((token) {
+        BaseCommon.instance.saveToken(token).then((_) {
+          if (BaseCommon.instance.accountSession!.role ==
+              'ROLE_RECYCLING_DEPOT') {
+            Get.toNamed(Routes.HOME);
+          } else {
+            UtilCommon.snackBar(
+                text: 'Tài khoản không phải Depot', isFail: true);
+          }
+        });
+      }).catchError(handleError);
+    }
   }
 }

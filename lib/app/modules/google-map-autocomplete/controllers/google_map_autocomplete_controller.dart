@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:rca_depot/app/modules/google-map-autocomplete/model/data_search_model.dart';
 import 'package:rca_depot/app/modules/sign_up/controllers/sign_up_controller.dart';
 
-
 class GoogleMapAutocompleteController extends GetxController {
   //TODO: Implement GoogleMapAutocompleteController
 
@@ -72,12 +71,32 @@ class GoogleMapAutocompleteController extends GetxController {
     }
   }
 
-
   Future<void> onSelectedData(
       {required DataSearchModel dataModelSearch}) async {
     selectedDataModel = dataModelSearch;
-    Get.find<SignUpController>().selectedDataModel = dataModelSearch;
-    Get.find<SignUpController>().addressController.text = dataModelSearch.description!;
-    Get.back();
+    getLatLong(selectedDataModel);
+  }
+
+  Future<void> getLatLong(DataSearchModel data) async {
+    try {
+      var url = Uri.parse(
+          "https://rsapi.goong.io/Place/Detail?place_id=${data.placeId}&api_key=${apiKey}");
+      final response = await http.get(
+        url,
+      );
+      print(response.body);
+      if (response.statusCode.toString() == '200') {
+        var dataRespone = jsonDecode(response.body);
+        data.lat =
+            dataRespone["result"]["geometry"]["location"]["lat"].toDouble();
+
+        data.lng =
+            dataRespone["result"]["geometry"]["location"]["lng"].toDouble();
+        Get.find<SignUpController>().selectedDataModel = data;
+        Get.find<SignUpController>().addressController.text = data.description!;
+        Get.back();
+      } else {}
+    } catch (e) {
+    } finally {}
   }
 }

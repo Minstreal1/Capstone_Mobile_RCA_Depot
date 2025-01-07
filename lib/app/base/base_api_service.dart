@@ -4,29 +4,31 @@ import 'package:http/http.dart' as http;
 import '/app/base/base_common.dart';
 
 class ApiService {
-
   Future<List<T>> fetchDataList<T>(
+      String apiUrl, T Function(Map<String, dynamic>) fromJson,
+      {bool isAuth = true}) async {
+    final response = await http.get(Uri.parse(apiUrl),
+        headers: BaseCommon.instance.headerRequest(isAuth: isAuth));
+    log('StatusCode ${response.statusCode} - $apiUrl');
+    log('Body ${response.body}');
+    if (json.decode(response.body)["status"] == 200) {
+      final List<dynamic> data = json.decode(response.body)["data"];
+      return data.map<T>((item) => fromJson(item)).toList();
+    }
+    throw Exception(json.decode(response.body)['message']);
+  }
+
+  Future<T> fetchDataObject<T>(
       String apiUrl, T Function(Map<String, dynamic>) fromJson) async {
     final response = await http.get(Uri.parse(apiUrl),
         headers: BaseCommon.instance.headerRequest());
     log('StatusCode ${response.statusCode} - $apiUrl');
     log('Body ${response.body}');
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body)["data"];
-      return data.map<T>((item) => fromJson(item)).toList();
+    if (json.decode(response.body)["status"] == 200) {
+      final data = json.decode(response.body)["data"];
+      return fromJson(data);
     }
-     throw Exception(json.decode(response.body)['message']);
-  }
-
-  Future<T> fetchDataObject<T>(
-      String apiUrl, T Function(Map<String, dynamic>) fromJson, ) async {
-    final response = await http.get(Uri.parse(apiUrl),
-        headers: BaseCommon.instance.headerRequest());
-    log('StatusCode ${response.statusCode} - $apiUrl');
-    log('Body ${response.body}');
-
-    final data = json.decode(response.body)["data"];
-    return fromJson(data);
+    throw Exception(json.decode(response.body)['message']);
   }
 
   Future<List<T>> fetchDataListWithPost<T>(
@@ -38,7 +40,7 @@ class ApiService {
     log('StatusCode ${response.statusCode} - $apiUrl');
     log('Body ${response.body}');
 
-    if (response.statusCode == 200) {
+     if (json.decode(response.body)["status"] == 200) {
       final List<dynamic> data = json.decode(response.body)["data"];
       return data.map<T>((item) => fromJson(item)).toList();
     } else
@@ -49,11 +51,12 @@ class ApiService {
       String apiUrl, T Function(Map<String, dynamic>) fromJson,
       {required Object body, bool isAuth = true}) async {
     final response = await http.post(Uri.parse(apiUrl),
-        headers: BaseCommon.instance.headerRequest(isAuth: isAuth), body: jsonEncode(body));
+        headers: BaseCommon.instance.headerRequest(isAuth: isAuth),
+        body: jsonEncode(body));
     log("payload: ${body.toString()}");
     log('StatusCode ${response.statusCode} - $apiUrl');
     log('Body ${response.body}');
-    if (response.statusCode == 200) {
+     if (json.decode(response.body)["status"] == 200) {
       final data = json.decode(response.body)["data"];
       return fromJson(data);
     } else {
@@ -69,12 +72,25 @@ class ApiService {
     log("payload: ${body.toString()}");
     log('StatusCode ${response.statusCode} - $apiUrl');
     log('Body ${response.body}');
-    if (response.statusCode == 200) {
+     if (json.decode(response.body)["status"] == 200) {
       final data = json.decode(response.body)["data"];
       return fromJson(data);
     } else {
       throw Exception(json.decode(response.body)['message']);
     }
+  }
+  
+    Future<bool> validationWithPatch(String apiUrl,
+      {required Object body, bool is201 = false}) async {
+    final response = await http.post(Uri.parse(apiUrl),
+        headers: BaseCommon.instance.headerRequest(), body: jsonEncode(body));
+    log("payload: ${body.toString()}");
+    log('StatusCode ${response.statusCode} - $apiUrl');
+    log('Body ${jsonEncode(response.body)}');
+    if (json.decode(response.body)["status"] == (is201 ? 201 : 200)) {
+      return true;
+    }
+    throw Exception(json.decode(response.body)['message']);
   }
 
   Future<bool> validationWithPost(String apiUrl,
@@ -83,8 +99,8 @@ class ApiService {
         headers: BaseCommon.instance.headerRequest(), body: jsonEncode(body));
     log("payload: ${body.toString()}");
     log('StatusCode ${response.statusCode} - $apiUrl');
-    log('Body ${jsonEncode(body)}');
-    if (response.statusCode == (is201 ? 201 : 200)) {
+    log('Body ${jsonEncode(response.body)}');
+    if (json.decode(response.body)["status"] == (is201 ? 201 : 200)) {
       return true;
     }
     throw Exception(json.decode(response.body)['message']);
@@ -96,24 +112,10 @@ class ApiService {
     log('StatusCode ${response.statusCode} - $apiUrl');
     log('Body ${response.body}');
     log("id $body");
-    if (response.statusCode == 200) {
+     if (json.decode(response.body)["status"] == 200) {
       return true;
     } else {
       throw Exception(json.decode(response.body)['message']);
     }
   }
-
-    Future<bool> validationWithPatch(String apiUrl,    {required Object body, bool is201 = false}) async {
-    final response = await http.patch(Uri.parse(apiUrl),
-        headers: BaseCommon.instance.headerRequest(), body: jsonEncode(body));
-    log('StatusCode ${response.statusCode} - $apiUrl');
-    log('Body ${response.body}');
-    log("id $body");
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(json.decode(response.body)['message']);
-    }
-  }
-  
 }

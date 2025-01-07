@@ -86,7 +86,7 @@ class SignUpController extends BaseController {
       if (!isLoading.value) {
         isLoading.value = true;
         PayLoadSignUp payload = PayLoadSignUp(
-          username: usernameController.text,
+          username: phoneController.text,
           password: passwordController.text,
           email: '${usernameController}@gmail.com',
           phoneNumber: phoneController.text,
