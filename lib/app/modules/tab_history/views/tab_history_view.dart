@@ -29,6 +29,10 @@ class TabHistoryView extends GetView<TabHistoryController> {
               Obx(
                 () => controller.isLoading.value
                     ? CircularProgressIndicator()
+                    :controller.listPayment.value.isEmpty?
+                    Center(
+                      child: TextConstant.subTile3(context, text: 'Chưa có data'),
+                    )
                     : ListView.separated(
                         shrinkWrap: true,
                         reverse: true,

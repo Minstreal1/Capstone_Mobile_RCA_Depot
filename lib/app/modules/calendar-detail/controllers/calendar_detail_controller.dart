@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rca_depot/app/base/base_common.dart';
 import 'package:rca_depot/app/model/account_session.dart';
+import 'package:rca_depot/app/model/depot_information.dart';
 import '../../../../app/base/base_controller.dart';
 import '../../../../app/model/create_payment_payload.dart';
 import '../../../../app/model/material_type.dart';
@@ -49,11 +50,12 @@ class CalendarDetailController extends BaseController {
   }
 
   fetchListMaterial() {
-    mainService.fetchOwnDepot(id:BaseCommon.instance.accountSession!.id!).then((dataDepot) {
+    mainService
+        .fetchOwnDepot(id: BaseCommon.instance.accountSession!.id!)
+        .then((dataDepot) {
       listMaterialType(dataDepot.depotMaterials);
       selectedDropdown.value = listMaterialType[0];
     }).catchError(handleError);
-   
   }
 
   addNewItem(MaterialTypeData value) {
@@ -84,71 +86,80 @@ class CalendarDetailController extends BaseController {
     });
   }
 
-  createQrPayment() {
+  createQrPayment() async {
     CreatePaymentPayload payload = CreatePaymentPayload();
     payload.collectorId = user.value.id;
     payload.materials = listItemAdd.value;
-    mainService.createQrPayment(payload: payload).then((value) {
-      Get.bottomSheet(
-        Container(
-          height: UtilsReponsive.height(400, Get.context!),
-          width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft:
-                    Radius.circular(UtilsReponsive.height(15, Get.context!)),
-                topRight:
-                    Radius.circular(UtilsReponsive.height(15, Get.context!)),
-              ),
-              color: Colors.white),
-          child: Column(
-            children: [
-              TextConstant.subTile2(Get.context!,
-                  text: 'Mã thanh toán: $value'),
-              TextConstant.subTile2(Get.context!, text: 'Tổng cộng: $sumData'),
-              QrImageView(
-                data: value.toString(),
-                version: QrVersions.auto,
-                size: 200.0,
-              ),
-              ConstrainedBox(
-                  constraints:
-                      BoxConstraints.tightFor(width: Get.context!.width),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.offAllNamed(Routes.HOME);
-                    },
-                    style: ButtonStyle(
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+    DepotInformation data = await MainService()
+        .fetchOwnDepot(id: BaseCommon.instance.accountSession!.id!);
+    double point = data.balance ?? 0;
+    if (point < sumData.value) {
+      UtilCommon.snackBar(
+          text: 'Số điểm trong tài khoản không đủ', isFail: true);
+    } else {
+      mainService.createQrPayment(payload: payload).then((value) {
+        Get.bottomSheet(
+          Container(
+            height: UtilsReponsive.height(400, Get.context!),
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft:
+                      Radius.circular(UtilsReponsive.height(15, Get.context!)),
+                  topRight:
+                      Radius.circular(UtilsReponsive.height(15, Get.context!)),
+                ),
+                color: Colors.white),
+            child: Column(
+              children: [
+                TextConstant.subTile2(Get.context!,
+                    text: 'Mã thanh toán: $value'),
+                TextConstant.subTile2(Get.context!,
+                    text: 'Tổng cộng: $sumData'),
+                QrImageView(
+                  data: value.toString(),
+                  version: QrVersions.auto,
+                  size: 200.0,
+                ),
+                ConstrainedBox(
+                    constraints:
+                        BoxConstraints.tightFor(width: Get.context!.width),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.offAllNamed(Routes.HOME);
+                      },
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
+                        backgroundColor:
+                            WidgetStateProperty.all(ColorsManager.primary),
+                        padding: WidgetStateProperty.all(EdgeInsets.all(14)),
                       ),
-                      backgroundColor:
-                          WidgetStateProperty.all(ColorsManager.primary),
-                      padding: WidgetStateProperty.all(EdgeInsets.all(14)),
-                    ),
-                    child: TextConstant.subTile2(
-                      Get.context!,
-                      text: 'Xác nhận đã thanh toán',
-                    ),
-                  )),
-            ],
+                      child: TextConstant.subTile2(
+                        Get.context!,
+                        text: 'Xác nhận đã thanh toán',
+                      ),
+                    )),
+              ],
+            ),
           ),
-        ),
-        isDismissible: false,
-      );
-      log('Id $value');
-    }).catchError(handleError);
+          isDismissible: false,
+        );
+        log('Id $value');
+      }).catchError(handleError);
+    }
   }
 
   getDataUserQr(String token) {
-   try {
+    try {
       final jwtToken = JWT.decode(token!);
-    log(jsonEncode(jwtToken.payload));
-    user.value = AccountSession.fromJson(jwtToken.payload);
-   } catch (e) {
-     UtilCommon.snackBar(text: 'QR không hợp lệ',isFail: true);
-   }
+      log(jsonEncode(jwtToken.payload));
+      user.value = AccountSession.fromJson(jwtToken.payload);
+    } catch (e) {
+      UtilCommon.snackBar(text: 'QR không hợp lệ', isFail: true);
+    }
   }
 }
