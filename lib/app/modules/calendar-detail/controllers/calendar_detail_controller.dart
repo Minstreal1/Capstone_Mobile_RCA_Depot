@@ -86,17 +86,31 @@ class CalendarDetailController extends BaseController {
     });
   }
 
+  bool validation() {
+    if (listItemAdd.isEmpty) {
+      return false;
+    }
+    for (var i = 0; i < listItemAdd.length; i++) {
+      if (listItemAdd[i].weight! <= 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   createQrPayment() async {
-    CreatePaymentPayload payload = CreatePaymentPayload();
-    payload.collectorId = user.value.id;
-    payload.materials = listItemAdd.value;
     DepotInformation data = await MainService()
         .fetchOwnDepot(id: BaseCommon.instance.accountSession!.id!);
     double point = data.balance ?? 0;
     if (point < sumData.value) {
       UtilCommon.snackBar(
           text: 'Số điểm trong tài khoản không đủ', isFail: true);
+    } else if (!validation()) {
+      UtilCommon.snackBar(text: 'Chưa nhập đủ thông tin', isFail: true);
     } else {
+      CreatePaymentPayload payload = CreatePaymentPayload();
+      payload.collectorId = user.value.id;
+      payload.materials = listItemAdd.value;
       mainService.createQrPayment(payload: payload).then((value) {
         Get.bottomSheet(
           Container(

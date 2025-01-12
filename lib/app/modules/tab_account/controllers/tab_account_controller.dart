@@ -21,18 +21,6 @@ class TabAccountController extends BaseController {
         textColor: Colors.black,
         backgroundColor: ColorsManager.primary),
     NavAccount(
-        title: 'Lịch sử',
-        icon: Icon(Icons.history, color: Colors.white),
-        path: '',
-        textColor: Colors.black,
-        backgroundColor: ColorsManager.primary),
-    NavAccount(
-        title: 'Đổi mật khẩu',
-        icon: Icon(Icons.password, color: Colors.white),
-        path: '',
-        textColor: Colors.black,
-        backgroundColor: ColorsManager.primary),
-    NavAccount(
         title: 'QR của tôi',
         icon: Icon(Icons.qr_code, color: Colors.white),
         path: 'qr_code',
@@ -43,7 +31,14 @@ class TabAccountController extends BaseController {
         icon: Icon(Icons.money, color: Colors.white),
         path: Routes.SEND_POINT,
         textColor: Colors.black,
-        backgroundColor: ColorsManager.primary)
+        backgroundColor: ColorsManager.primary),
+          NavAccount(
+        title: 'Đổi điểm và rút tiền',
+        icon: Icon(Icons.money, color: Colors.white),
+        path: Routes.CHECK_POINT,
+        textColor: Colors.black,
+        backgroundColor: ColorsManager.primary),
+        
   ];
 //  Rx<AccountSession> account = AccountSession().obs;
   Rx<DepotInformation> dataDepot = DepotInformation().obs;

@@ -6,7 +6,7 @@ import '../../../../app/base/base_common.dart';
 import '../../../../app/routes/app_pages.dart';
 import '../../../../app/service/auth.dart';
 
-enum ValidationType { phone, email, password, name }
+enum ValidationType { phone, email, password, name, depot, address }
 
 class LoginController extends BaseController {
   //TODO: Implement LoginController
@@ -83,11 +83,10 @@ class LoginController extends BaseController {
       isLockButton(true);
       authService
           .login(
-        username: phoneController.text,
-        password: passwordController.text,
-        // username: "depot13",
-        // password: "123456"
-      )
+              username: phoneController.text,
+              password: passwordController.text,)
+              // username: "hieutran",
+              // password: "password123")
           .then((token) {
         BaseCommon.instance.saveToken(token).then((_) {
           if (BaseCommon.instance.accountSession!.role ==

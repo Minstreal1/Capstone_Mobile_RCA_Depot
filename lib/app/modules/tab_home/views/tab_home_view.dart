@@ -56,20 +56,25 @@ class TabHomeView extends GetView<TabHomeController> {
                       )),
                       SizedBoxConst.sizeWith(context: context),
                       Expanded(
-                          child: Container(
-                        decoration:
-                            UtilCommon.shadowBox(context, colorBg: Colors.blue),
-                        child: Column(
-                          children: [
-                            Expanded(
-                                child: Icon(
-                              Icons.summarize,
-                              size: UtilsReponsive.height(70, context),
-                            )),
-                            Expanded(
-                                child: TextConstant.titleH3(context,
-                                    text: 'Thống kê'))
-                          ],
+                          child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.SUMMARY);
+                        },
+                        child: Container(
+                          decoration: UtilCommon.shadowBox(context,
+                              colorBg: Colors.blue),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: Icon(
+                                Icons.summarize,
+                                size: UtilsReponsive.height(70, context),
+                              )),
+                              Expanded(
+                                  child: TextConstant.titleH3(context,
+                                      text: 'Thống kê'))
+                            ],
+                          ),
                         ),
                       )),
                     ],

@@ -42,15 +42,25 @@ dependencies:
   url_launcher: ^6.1.10
   app_links:
   quickalert: ^1.1.0
-
-  flutter: 
-    sdk: flutter
+  cached_network_image: ^3.4.1
+  flutter_launcher_icons: ^0.13.1
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/rca_logo.png"
+  min_sdk_android: 21
+  adaptive_icon_foreground: "assets/images/rca_logo.png" # Set the foreground image (same or different from image_path)
+  adaptive_icon_background: "#ffffff"
+  remove_alpha_ios: true
+ 
 
 dev_dependencies: 
   flutter_lints: ^3.0.0
   flutter_test: 
     sdk: flutter
   flutter_localizations:
+    sdk: flutter
+  flutter: 
     sdk: flutter
 flutter: 
   uses-material-design: true

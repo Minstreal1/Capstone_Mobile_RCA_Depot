@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_depot/app/base/base_controller.dart';
 import 'package:rca_depot/app/modules/google-map-autocomplete/model/data_search_model.dart';
+import 'package:rca_depot/app/modules/login/controllers/login_controller.dart';
 import 'package:rca_depot/app/modules/sign_up/model/payload_signup.dart';
 import 'package:rca_depot/app/resource/util_common.dart';
 import 'package:rca_depot/app/service/auth.dart';
@@ -36,7 +37,6 @@ class SignUpController extends BaseController {
 
   DataSearchModel selectedDataModel = DataSearchModel();
 
-
   @override
   void onInit() {
     super.onInit();
@@ -52,22 +52,29 @@ class SignUpController extends BaseController {
     super.onClose();
   }
 
+  void validationNameDepot() {
+    if (depotNameController.text.trim().isEmpty) {
+      depotNameError.value = 'Tên không được để trống';
+      return;
+    }
+    depotNameError.value = '';
+  }
+
   void validationName() {
     if (nameController.text.trim().isEmpty) {
-      nameError.value = 'Name can not blank';
-      log('s');
+      nameError.value = 'Tên không được để trống';
       return;
     }
     nameError.value = '';
   }
 
-  void validationEmail() {
+  void validationPhone() {
     if (phoneController.text.trim().isEmpty) {
-      phoneError.value = 'Email can not blank';
+      phoneError.value = 'Số điện thoại không được để trống';
       return;
     }
-    if (!phoneController.text.trim().isEmail) {
-      phoneError.value = 'Email wrong format';
+    if (!phoneController.text.trim().isPhoneNumber) {
+      phoneError.value = 'Số điện thoại không đúng định dạng';
       return;
     }
     phoneError.value = '';
@@ -75,34 +82,80 @@ class SignUpController extends BaseController {
 
   void validationPassword() {
     if (passwordController.text.trim().isEmpty) {
-      passwordError.value = 'Password can not blank';
+      passwordError.value = 'Mật khẩu không được để trống';
+      return;
+    }
+    if (passwordController.text.length < 6) {
+      passwordError.value = 'Mật khẩu tối thiểu 6 kí tự';
       return;
     }
     passwordError.value = '';
+  }
+
+  void validationEmail() {
+    if (emailController.text.trim().isEmpty) {
+      emailError.value = 'Email không được để trống';
+      return;
+    }
+    if (!emailController.text.isEmail) {
+      emailError.value = 'Email sai định dạng';
+      return;
+    }
+    emailError.value = '';
+  }
+
+  void validation({required ValidationType type}) {
+    switch (type) {
+      case ValidationType.phone:
+        validationPhone();
+        break;
+      case ValidationType.password:
+        validationPassword();
+        break;
+      case ValidationType.email:
+        validationEmail();
+      case ValidationType.name:
+        validationName();
+        break;
+      case ValidationType.depot:
+        validationNameDepot();
+        break;
+      default:
+    }
+    isEnableButton.value = (phoneError.isEmpty &&
+        passwordError.isEmpty &&
+        emailError.isEmpty &&
+        nameError.isEmpty &&
+        depotNameError.isEmpty &&
+        depotNameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        nameController.text.isNotEmpty &&
+        phoneController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty);
   }
 
   Future<void> register() async {
     try {
       if (!isLoading.value) {
         isLoading.value = true;
+        List<String> nameFull = nameController.text.split(' ');
         PayLoadSignUp payload = PayLoadSignUp(
           username: phoneController.text,
           password: passwordController.text,
-          email: '${usernameController}@gmail.com',
+          email: emailController.text,
           phoneNumber: phoneController.text,
-          firstName: nameController.text.split(' ')[0],
-          lastName: nameController.text.split(' ')[1],
+          firstName: nameFull.first,
+          lastName: nameFull.sublist(1).join(' '),
           address: addressController.text,
           depotName: depotNameController.text,
           location: addressController.text,
           latitude: selectedDataModel.lat,
           longitude: selectedDataModel.lng,
         );
-        AuthService().register(payload: payload).then((value){
+        AuthService().register(payload: payload).then((value) {
           Get.offAllNamed(Routes.LOGIN);
           UtilCommon.snackBar(text: 'Đăng kí thành công');
         }).catchError(handleError);
-       
       }
     } catch (e) {
       print("Failed to register: $e");

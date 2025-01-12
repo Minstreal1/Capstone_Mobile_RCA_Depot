@@ -20,6 +20,10 @@ abstract class Routes {
   static const CONFIG_MATERIAL = _Paths.CONFIG_MATERIAL;
   static const MANAGE_MATERIAL = _Paths.MANAGE_MATERIAL;
   static const SEND_POINT = _Paths.SEND_POINT;
+  static const SUMMARY = _Paths.SUMMARY;
+  static const CHECK_POINT = _Paths.CHECK_POINT;
+  static const HISTORY_CHECKPOINT = _Paths.HISTORY_CHECKPOINT;
+  static const MY_VOUCHER = _Paths.MY_VOUCHER;
 }
 
 abstract class _Paths {
@@ -41,4 +45,8 @@ abstract class _Paths {
   static const CONFIG_MATERIAL = '/config-material';
   static const MANAGE_MATERIAL = '/manage-material';
   static const SEND_POINT = '/send-point';
+  static const SUMMARY = '/summary';
+  static const CHECK_POINT = '/check-point';
+  static const HISTORY_CHECKPOINT = '/history-checkpoint';
+  static const MY_VOUCHER = '/my-voucher';
 }

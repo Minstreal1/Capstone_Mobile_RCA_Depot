@@ -17,7 +17,6 @@ class ManageMaterialController extends BaseController {
   RxList<MaterialTypeData> listMaterialDataOwner = <MaterialTypeData>[].obs;
   Rx<DepotInformation> dataDepot = DepotInformation().obs;
   final isLoading = false.obs;
-  final waiting = false.obs;
   @override
   void onInit() {
     fetchData();

@@ -10,12 +10,14 @@ abstract class BaseController extends GetxController {
   Rx<bool> isFetchMore = false.obs;
   Rx<bool> isLockButton = false.obs;
   Rx<bool> isEnableButton = false.obs;
+  Rx<bool> waiting = false.obs;
 
   FutureOr<Null> handleError(dynamic error) async {
     try {
       log("errApi:" + error.toString());
       isLockButton(false);
       isLoading(false);
+      waiting(false);
       UtilCommon.snackBar(text: '${error.message}', isFail: true);
     } catch (e) {
       UtilCommon.snackBar(text: '$error', isFail: true);

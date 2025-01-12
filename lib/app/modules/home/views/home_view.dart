@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -36,6 +38,7 @@ class HomeView extends GetView<HomeController> {
                     confirmBtnText: 'Xác nhận',
                     customAsset: 'assets/images/arrow.png',
                     widget: TextFormField(
+                      controller: controller.pointNum,
                       decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         hintText: 'Nhập số điểm muốn nạp',
@@ -47,7 +50,8 @@ class HomeView extends GetView<HomeController> {
                       keyboardType: TextInputType.phone,
                       onChanged: (value) {},
                     ),
-                    onConfirmBtnTap: () async {
+                    onConfirmBtnTap: ()  {
+                      log('message');
                       controller.money();
                       //  if (message.length < 5) {
                       //   await QuickAlert.show(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_depot/app/modules/login/controllers/login_controller.dart';
 import 'package:rca_depot/app/resource/text_style.dart';
 import 'package:rca_depot/app/resource/util_common.dart';
 import 'package:rca_depot/app/routes/app_pages.dart';
@@ -62,7 +63,9 @@ class SignUpView extends GetView<SignUpController> {
                         padding: 20,
                         controllerEditting: controller.phoneController,
                         errorText: controller.phoneError.value,
-                        setValueFunc: (value) {},
+                        setValueFunc: (value) {
+                          controller.validation(type: ValidationType.phone);
+                        },
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,
                       )),
@@ -100,7 +103,24 @@ class SignUpView extends GetView<SignUpController> {
                         controllerEditting: controller.nameController,
                         errorText: controller.nameError.value,
                         setValueFunc: (value) {
-                          controller.validationName();
+                          controller.validation(type: ValidationType.name);
+                        },
+                        borderColor: ColorsManager.primary,
+                        radiusBorder: 15,
+                      )),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile2(
+                    context,
+                    text: 'Email',
+                    color: ColorsManager.primary,
+                  ),
+                  SizedBoxConst.size(context: context),
+                  Obx(() => FormFieldWidget(
+                        padding: 20,
+                        controllerEditting: controller.emailController,
+                        errorText: controller.emailError.value,
+                        setValueFunc: (value) {
+                          controller.validation(type: ValidationType.email);
                         },
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,
@@ -117,7 +137,7 @@ class SignUpView extends GetView<SignUpController> {
                         controllerEditting: controller.depotNameController,
                         errorText: controller.depotNameError.value,
                         setValueFunc: (value) {
-                          controller.validationName();
+                          controller.validation(type: ValidationType.depot);
                         },
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,
@@ -163,32 +183,38 @@ class SignUpView extends GetView<SignUpController> {
                   SizedBox(
                     height: size.height * 0.04,
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: context.width),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: WidgetStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                  Obx(
+                    () => ConstrainedBox(
+                      constraints:
+                          BoxConstraints.tightFor(width: context.width),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
+                          backgroundColor: WidgetStateProperty.all(
+                              controller.isEnableButton.value
+                                  ? ColorsManager.primary
+                                  : Colors.grey),
+                          padding: WidgetStateProperty.all(EdgeInsets.all(14)),
                         ),
-                        backgroundColor:
-                            WidgetStateProperty.all(ColorsManager.primary),
-                        padding: WidgetStateProperty.all(EdgeInsets.all(14)),
+                        child: Obx(() => controller.isLoading.value
+                            ? const CupertinoActivityIndicator(
+                                color: Colors.white,
+                              )
+                            : Text('Đăng ký',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.02))),
+                        onPressed: () async {
+                          await controller.register();
+                        },
                       ),
-                      child: Obx(() => controller.isLoading.value
-                          ? const CupertinoActivityIndicator(
-                              color: Colors.white,
-                            )
-                          : Text('Đăng ký',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.02))),
-                      onPressed: () async {
-                        await controller.register();
-                      },
                     ),
                   ),
                   SizedBoxConst.size(context: context),
